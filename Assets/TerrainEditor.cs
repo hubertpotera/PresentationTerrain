@@ -14,7 +14,7 @@ public class TerrainEditor : MonoBehaviour
         width = terrainData.heightmapResolution;
         
         Flatten();
-        float[,] heightmap = HeightmapGenerator.Sin1D(width, 0.06f, 0.05f);
+        float[,] heightmap = HeightmapGenerator.Perlin1Layer(width, 0.2f, 0.005f);
         terrainData.SetHeights(0,0, heightmap);
         
     }
