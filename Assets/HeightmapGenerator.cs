@@ -70,9 +70,13 @@ public static class HeightmapGenerator
 
 
     public static float[,] PerlinLayered(int width, float scale=0.2f, float height=0.005f, 
-        int octaves=4, float lacunarity=2.0f, float persistance=0.5f)
+        int octaves=4, float lacunarity=2.0f, float persistence=0.5f)
     {
         float[,] heightmap = new float[width,width];
+
+        float frequency = scale;
+        float amplitude = 1f;
+        float maxAmplitude = amplitude;
 
         for (int i = 0; i < octaves; i++)
         {
@@ -80,12 +84,24 @@ public static class HeightmapGenerator
             {
                 for (int x = 0; x < width; x++)
                 {
-                    heightmap[y,x] = height * Mathf.PerlinNoise(scale*x,scale*y);
-                    //TODO change
+                    float val = amplitude * Mathf.PerlinNoise(frequency*x,frequency*y);
+                    heightmap[y,x] += (2*val-1);
                 }
             }
 
-            //TODO *= lacunarity, persistance
+            frequency *= lacunarity;
+            amplitude *= persistence;
+            maxAmplitude += amplitude;
+        }
+
+        for (int y = 0; y < width; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                //TODO it sesems values are <0
+                heightmap[y,x] = Mathf.InverseLerp(-maxAmplitude, maxAmplitude, heightmap[y,x]);
+                heightmap[y,x] *= height;
+            }
         }
 
         return heightmap;
