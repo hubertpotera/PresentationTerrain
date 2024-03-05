@@ -76,23 +76,29 @@ public static class HeightmapGenerator
 
         float frequency = scale;
         float amplitude = 1f;
-        float maxAmplitude = amplitude;
+        float maxAmplitude = 0f;
+
+        float __minv = 0f;
+        float __maxv = 0f;
 
         for (int i = 0; i < octaves; i++)
         {
+            maxAmplitude += amplitude;
             for (int y = 0; y < width; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    float val = amplitude * Mathf.PerlinNoise(frequency*x,frequency*y);
-                    heightmap[y,x] += (2*val-1);
+                    float val = amplitude * (2*Mathf.PerlinNoise(frequency*x,frequency*y)-1);
+                    heightmap[y,x] += val;
+                    __minv = Mathf.Min(__minv, val);
+                    __maxv = Mathf.Max(__maxv, val);
                 }
             }
 
             frequency *= lacunarity;
             amplitude *= persistence;
-            maxAmplitude += amplitude;
         }
+        Debug.Log(maxAmplitude + " : " + __minv + " : " + __maxv);
 
         for (int y = 0; y < width; y++)
         {
