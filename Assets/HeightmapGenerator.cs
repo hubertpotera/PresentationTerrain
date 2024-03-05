@@ -4,9 +4,8 @@ using UnityEngine;
 
 public static class HeightmapGenerator
 {
-    public static float[,] Sin1D(int width, float scale, float height)
+    public static float[,] Sin1D(int width, float scale=0.06f, float height=0.05f)
     {
-        // suggested scale:0.06f, height:0.05f
         float[,] heightmap = new float[width,width];
 
         for (int y = 0; y < width; y++)
@@ -21,9 +20,8 @@ public static class HeightmapGenerator
     }
 
 
-    public static float[,] Sin2D(int width, float scale, float height)
+    public static float[,] Sin2D(int width, float scale=0.06f, float height=0.05f)
     {
-        // suggested scale:0.06f, height:0.05f
         float[,] heightmap = new float[width,width];
 
         for (int y = 0; y < width; y++)
@@ -38,9 +36,8 @@ public static class HeightmapGenerator
     }
 
 
-    public static float[,] Perlin1Layer(int width, float scale, float height)
+    public static float[,] Perlin1Layer(int width, float scale=0.2f, float height=0.005f)
     {
-        // suggested 0.06f, 0.05f
         float[,] heightmap = new float[width,width];
 
         for (int y = 0; y < width; y++)
